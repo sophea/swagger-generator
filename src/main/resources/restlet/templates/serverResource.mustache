@@ -9,20 +9,33 @@ import java.util.*;
 public class {{className}}ServerResource extends ServerResource implements {{className}}Resource  {
   {{#operations}}
   {{#operation}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}
-    {{#queryParameter}}{{{dataType}}} {{paramName}}{{/queryParameter}}
-    {{#pathParameter}}{{{dataType}}} {{paramName}}{{/pathParameter}}
-    {{#formParameter}}{{{dataType}}} {{paramName}}{{/formParameter}}
-    {{#headerParameter}}{{{dataType}}} {{paramName}}{{/headerParameter}}
-    {{#bodyParameter}}{{{dataType}}} {{paramName}}{{/bodyParameter}}
-    {{#hasMore}},{{/hasMore}}
-    {{/allParams}}) {
+  /** 
+   {{{summary}}} 
+
+   {{#notes}}
+   {{{notes}}}
+   {{/notes}}
+   {{#pathParams}}
+   @param {{paramName}} {{description}}
+   {{/pathParams}}
+  */
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) {
+    {{#allParams}}
+    {{#queryParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getQueryValue("{{{paramName}}}"));{{/queryParameter}}
+
+    {{#formParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getFormValue("{{{paramName}}}"));{{/formParameter}}
+
+    {{#headerParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getHeaderValue("{{{paramName}}}"));{{/headerParameter}}
+
+    {{#bodyParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getBodyValue("{{{paramName}}}"));{{/bodyParameter}}
+    {{/allParams}}
+
     {{#returnType}}
-      return null;
-    {{/returnType}}
+    return null;
+    {{/returnType}}{{newline}}
     {{^returnType}}
-      return;
-    {{/returnType}}
+    return;
+    {{/returnType}}{{newline}}
   }
 
   {{/operation}}
