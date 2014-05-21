@@ -1,0 +1,24 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+
+import org.restlet.resource.*;
+
+import java.util.*;
+
+public interface {{className}}Resource {
+  {{#operations}}
+  {{#operation}}
+  @{{httpMethod}}("{{path}}")
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}
+    {{#queryParameter}}{{{dataType}}} {{paramName}}{{/queryParameter}}
+    {{#pathParameter}}{{{dataType}}} {{paramName}}{{/pathParameter}}
+    {{#formParameter}}{{{dataType}}} {{paramName}}{{/formParameter}}
+    {{#headerParameter}}{{{dataType}}} {{paramName}}{{/headerParameter}}
+    {{#bodyParameter}}{{{dataType}}} {{paramName}}{{/bodyParameter}}
+    {{#hasMore}},{{/hasMore}}
+    {{/allParams}});
+
+  {{/operation}}
+  {{/operations}}{{newline}}
+}

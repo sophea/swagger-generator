@@ -1,0 +1,14 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+import java.util.*;
+
+public class {{className}}Service {
+  {{#operations}}
+  {{#operation}}
+  public static {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{#returnType}}return null;{{/returnType}}
+  }
+  {{/operation}}
+  {{/operations}}
+}
