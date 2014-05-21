@@ -7,12 +7,38 @@ import com.wordnik.swagger.online.Generator;
 
 import com.wordnik.swagger.codegen.model.ClientOpts;
 
+import java.io.File;
+import java.util.*;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 @Path("/gen")
 @Api(value = "/gen", description = "Resource for generating swagger components")
 public class SwaggerResource {
+  private static Map<String, String> fileMap = new HashMap<String, String>();
+
+  @GET
+  @Path("/download/{fileId}")
+  @Produces({"application/zip", "application/json"})
+  public Response downloadFile(@PathParam("fileId") String fileId) throws Exception {
+    String filename = fileMap.get(fileId);
+    System.out.println("looking for fileId " + fileId);
+    System.out.println("got filename " + filename);
+    if(filename != null) {
+      byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(filename));
+
+      return Response.ok(bytes, "application/zip")
+            .header("Content-Disposition","attachment; filename=\"swagger-generated.zip\"")
+            .header("Accept-Range", "bytes")
+            .header("Content-Length", bytes.length)
+            .build();
+    }
+    else {
+      return Response.status(404).build();
+    }
+  }
+
   @POST
   @Path("/clients/{language}")
   @Produces({"application/zip", "application/json"})
@@ -21,15 +47,14 @@ public class SwaggerResource {
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) ClientOptInput opts) throws Exception {
-    System.out.println(opts);
+
     String filename = Generator.generateClient(language, opts);
 
     if(filename != null) {
-      byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(filename));
-
-      return Response.ok(bytes, MediaType.APPLICATION_OCTET_STREAM)
-            .header("content-disposition","attachment; filename = " + language + "-client.zip")
-            .build();
+      String code = String.valueOf(System.currentTimeMillis());
+      fileMap.put(code, filename);
+      System.out.println(code + ", " + filename);
+      return Response.ok().entity(new ResponseCode(code)).build();
     }
     else {
       return Response.status(500).build();
@@ -92,8 +117,8 @@ public class SwaggerResource {
     if(filename != null) {
       byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(filename));
 
-      return Response.ok(bytes, MediaType.APPLICATION_OCTET_STREAM)
-            .header("content-disposition","attachment; filename = " + framework + "-server.zip")
+      return Response.ok(bytes, "application/zip")
+            .header("Content-Disposition","attachment; filename=\"" + framework + "-server.zip\"")
             .build();
     }
     else {
