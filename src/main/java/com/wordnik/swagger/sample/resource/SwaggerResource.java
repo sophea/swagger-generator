@@ -16,20 +16,20 @@ import javax.ws.rs.core.*;
 @Path("/gen")
 @Api(value = "/gen", description = "Resource for generating swagger components")
 public class SwaggerResource {
-  private static Map<String, String> fileMap = new HashMap<String, String>();
+  private static Map<String, Generated> fileMap = new HashMap<String, Generated>();
 
   @GET
   @Path("/download/{fileId}")
   @Produces({"application/zip", "application/json"})
   public Response downloadFile(@PathParam("fileId") String fileId) throws Exception {
-    String filename = fileMap.get(fileId);
+    Generated g = fileMap.get(fileId);
     System.out.println("looking for fileId " + fileId);
-    System.out.println("got filename " + filename);
-    if(filename != null) {
-      byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(filename));
+    System.out.println("got filename " + g.getFilename());
+    if(g.getFilename() != null) {
+      byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(g.getFilename()));
 
       return Response.ok(bytes, "application/zip")
-            .header("Content-Disposition","attachment; filename=\"swagger-generated.zip\"")
+            .header("Content-Disposition","attachment; filename=\"" + g.getFriendlyName() + "-generated.zip\"")
             .header("Accept-Range", "bytes")
             .header("Content-Length", bytes.length)
             .build();
@@ -52,7 +52,10 @@ public class SwaggerResource {
 
     if(filename != null) {
       String code = String.valueOf(System.currentTimeMillis());
-      fileMap.put(code, filename);
+      Generated g = new Generated();
+      g.setFilename(filename);
+      g.setFriendlyName(language + "-client");
+      fileMap.put(code, g);
       System.out.println(code + ", " + filename);
       return Response.ok().entity(new ResponseCode(code)).build();
     }
@@ -114,12 +117,16 @@ public class SwaggerResource {
     if(framework == null)
       throw new BadRequestException(400, "Framework is required");
     String filename = Generator.generateServer(framework, opts);
-    if(filename != null) {
-      byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(filename));
+    System.out.println("generated name: " + filename);
 
-      return Response.ok(bytes, "application/zip")
-            .header("Content-Disposition","attachment; filename=\"" + framework + "-server.zip\"")
-            .build();
+    if(filename != null) {
+      String code = String.valueOf(System.currentTimeMillis());
+      Generated g = new Generated();
+      g.setFilename(filename);
+      g.setFriendlyName(framework + "-server");
+      fileMap.put(code, g);
+      System.out.println(code + ", " + filename);
+      return Response.ok().entity(new ResponseCode(code)).build();
     }
     else {
       return Response.status(500).build();
