@@ -83,6 +83,7 @@ object Generator {
 
     Option(clientConfig) match {
       case Some(c) => {
+        com.wordnik.swagger.codegen.Codegen.templates.clear
         val files = c.generate(opts)
         val zip = new ZipUtil()
         zip.compressFiles(List(
@@ -121,6 +122,7 @@ object Generator {
 
     Option(clientConfig) match {
       case Some(c) => {
+        com.wordnik.swagger.codegen.Codegen.templates.clear
         val files = c.generate(opts)
         val zip = new ZipUtil()
         zip.compressFiles(List(
