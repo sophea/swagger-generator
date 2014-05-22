@@ -34,8 +34,8 @@ class ObjCClientConfig extends BasicObjcGenerator with ClientConfig {
   def usage() = fields
   override def invokerPackage = Option("")
   override def destinationDir = this.outputDir
-  override def modelPackage = Option(properties.getOrElse("modelPackage", fieldDefaultValue("modelPackage")))
-  override def apiPackage = Option(properties.getOrElse("apiPackage", fieldDefaultValue("apiPackage")))
+  override def modelPackage = None
+  override def apiPackage = None
 
   override def supportingFiles =
     List(
