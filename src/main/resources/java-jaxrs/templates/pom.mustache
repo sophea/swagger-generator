@@ -26,24 +26,20 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-version}</version>
         <configuration>
-          <webAppConfig>
+          <webApp>
             <contextPath>/</contextPath>
-          </webAppConfig>
+          </webApp>
           <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
-          <webDefaultXml>${project.basedir}/conf/jetty/webdefault.xml</webDefaultXml>
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8002</port>
-              <maxIdleTime>60000</maxIdleTime>
-              <confidentialPort>8443</confidentialPort>
-            </connector>
-          </connectors>
+          <httpConnector>
+            <port>8002</port>
+            <idleTimeout>60000</idleTimeout>
+          </httpConnector>
         </configuration>
         <executions>
           <execution>
@@ -71,19 +67,32 @@
   <dependencies>
     <dependency>
       <groupId>com.wordnik</groupId>
-      <artifactId>swagger-jersey-jaxrs_2.10</artifactId>
-      <version>${swagger-core-version}</version>
+      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+      <scope>compile</scope>
+      <version>1.3.5</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback-version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j-version}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback-version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest_2.10</artifactId>
-      <version>${scala-test-version}</version>
+      <version>${scalatest-version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -95,36 +104,28 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
+      <version>${servlet-version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+      <version>${jersey2-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-core</artifactId>
-      <version>${jersey-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
-      <version>${jersey-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-servlet</artifactId>
-      <version>${jersey-version}</version>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>${jersey2-version}</version>
     </dependency>
   </dependencies>
   <properties>
-    <jersey-version>1.13</jersey-version>
-    <swagger-core-version>1.3.2</swagger-core-version>
-    <jetty-version>7.6.0.v20120127</jetty-version>
+    <jetty-version>9.0.7.v20131107</jetty-version>
+    <swagger-version>1.3.5</swagger-version>
+    <jersey2-version>2.4.1</jersey2-version>
+    <servlet-version>2.5</servlet-version>
+    <logback-version>1.0.1</logback-version>
+
     <slf4j-version>1.6.3</slf4j-version>
-    <scala-test-version>1.9</scala-test-version>
+    <scalatest-version>1.9</scalatest-version>
     <junit-version>4.8.1</junit-version>
-    <servlet-api-version>2.5</servlet-api-version>
   </properties>
 </project>
