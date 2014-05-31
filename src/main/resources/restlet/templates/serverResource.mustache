@@ -19,15 +19,16 @@ public class {{className}}ServerResource extends ServerResource implements {{cla
    @param {{paramName}} {{description}}
    {{/pathParams}}
   */
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#bodyParams}}{{{dataType}}} {{paramName}}{{/bodyParams}}) {
     {{#allParams}}
+    {{#pathParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getAttribute("{{{paramName}}}"));{{/pathParameter}}
+
     {{#queryParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getQueryValue("{{{paramName}}}"));{{/queryParameter}}
 
     {{#formParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getFormValue("{{{paramName}}}"));{{/formParameter}}
 
     {{#headerParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getHeaderValue("{{{paramName}}}"));{{/headerParameter}}
-
-    {{#bodyParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getBodyValue("{{{paramName}}}"));{{/bodyParameter}}
+    {{newline}}
     {{/allParams}}
 
     {{#returnType}}

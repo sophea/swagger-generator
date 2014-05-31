@@ -9,6 +9,7 @@ import com.wordnik.swagger.codegen.model.ClientOpts
 import java.io.File
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable.HashSet
 
 class RestletServerConfig extends BasicJavaGenerator with ClientConfig {
   var config: ClientOpts = _
@@ -58,16 +59,72 @@ class RestletServerConfig extends BasicJavaGenerator with ClientConfig {
     ("restletApplication.mustache", codeDir, "RestletApplication.java")
   )
 
+  val pathCombos = new HashSet[String]
+
   override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
+    print(".")
     val mutable = scala.collection.mutable.Map() ++ m
+
+    if(!mutable.contains("httpMethod")) {
+      import org.json4s.jackson.JsonMethods._
+      import org.json4s.jackson.Serialization.write
+      import com.wordnik.swagger.codegen.model.SwaggerSerializers
+      implicit val formats = SwaggerSerializers.formats("1.2")
+//      println(pretty(render(parse(write(mutable)))))
+      println(mutable)
+    }
+    val method = mutable("httpMethod").toString
+    val path = mutable("path").toString
+
+    pathCombos.contains(path) match {
+      case false => {
+        mutable += "uniquePath" -> "true"
+        pathCombos += path
+      }
+      case _ =>
+    }
+
     mutable.map(k => {
       k._1 match {
         // make initial caps
-        case "returnType" => mutable += "returnType" -> (k._2.asInstanceOf[Option[String]].getOrElse(null))
+        case "returnType" => mutable += "returnType" -> (k._2.asInstanceOf[Option[String]])
         case "httpMethod" => mutable += "httpMethod" -> (k._2.toString.substring(0, 1) + k._2.toString.substring(1).toLowerCase)
         case _ =>
       }
     })
     mutable.toMap
+  }
+
+  import com.wordnik.swagger.codegen.model._
+  import scala.collection.mutable.{HashMap, ListBuffer}
+
+  def classNameFromPath(path: String) = {
+    ((for(m <- path.replaceAll("\\{\\w+}", "").replaceAll("\\/\\/","/").split("\\/"))
+      yield (
+        if(m.length > 0)
+          m.charAt(0).toUpper + m.substring(1)
+        else ""
+      )).mkString("") + (
+        if(path.endsWith("}")) ""
+        else "Root")
+    )
+  }
+
+  override def groupOperationsToFiles(operations: List[(String, String, Operation)]): Map[(String, String), List[(String, Operation)]] = {
+    val opMap = new HashMap[(String, String), ListBuffer[(String, Operation)]]
+    for ((basePath, apiPath, operation) <- operations) {
+      // val className = resourceNameFromFullPath(apiPath)
+      val className = classNameFromPath(apiPath)
+//      println(basePath, className)
+      val listToAddTo = opMap.getOrElse((basePath, className), {
+        val l = new ListBuffer[(String, Operation)]
+        opMap += (basePath, className) -> l
+        l
+      })
+      listToAddTo += Tuple2(apiPath, operation)
+    }
+
+    val o = opMap.map(m => (m._1, m._2.toList)).toMap
+    o
   }
 }

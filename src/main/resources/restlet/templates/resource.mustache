@@ -9,8 +9,8 @@ import java.util.*;
 public interface {{className}}Resource {
   {{#operations}}
   {{#operation}}
-  @{{httpMethod}}("{{path}}")
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
+  @{{httpMethod}}("json")
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#bodyParams}}{{{dataType}}} {{paramName}}{{/bodyParams}});
 
   {{/operation}}
   {{/operations}}{{newline}}

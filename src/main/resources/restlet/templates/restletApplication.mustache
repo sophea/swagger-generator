@@ -29,15 +29,18 @@ public class RestletApplication extends Application {
     // Create a router Restlet that routes each call to a
     // new instance of HelloWorldResource.
     Router router = new Router(getContext());
-
     // Defines only one route
+    {{#apiInfo}}
     {{#apis}}
     {{#operations}}
-    {{#operation}} 
-    router.attach("{{path}}", {{className}}ServerResource.class); // {{httpMethod}}
+    {{#operation}}
+    {{#uniquePath}}
+    router.attach("{{path}}", {{className}}ServerResource.class);
+    {{/uniquePath}}
     {{/operation}}
     {{/operations}}
     {{/apis}}
+    {{/apiInfo}}
 
     return router;
   }
