@@ -28,21 +28,6 @@ public class Bootstrap extends HttpServlet {
       "http://www.apache.org/licenses/LICENSE-2.0.html" /* license URL */
     );
 
-    List<AuthorizationScope> scopes = new ArrayList<AuthorizationScope>();
-    scopes.add(new AuthorizationScope("email", "Access to your email address"));
-    scopes.add(new AuthorizationScope("pets", "Access to your pets"));
-
-    List<GrantType> grantTypes = new ArrayList<GrantType>();
-
-    ImplicitGrant implicitGrant = new ImplicitGrant(
-      new LoginEndpoint("http://localhost:8002/oauth/dialog"), 
-      "access_code");
-
-    grantTypes.add(implicitGrant);
-
-    AuthorizationType oauth = new OAuthBuilder().scopes(scopes).grantTypes(grantTypes).build();
-
-    ConfigFactory.config().addAuthorization(oauth);
     ConfigFactory.config().setApiInfo(info);
   }
 }

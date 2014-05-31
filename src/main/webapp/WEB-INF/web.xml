@@ -42,7 +42,7 @@
     </init-param>
     <init-param>
       <param-name>swagger.api.basepath</param-name>
-      <param-value>http://localhost:8002/api</param-value>
+      <param-value>http://generator.wordnik.com/online/api</param-value>
     </init-param>
     <init-param>
       <param-name>swagger.filter</param-name>
