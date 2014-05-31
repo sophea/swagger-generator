@@ -15,6 +15,8 @@ The [github wiki](https://github.com/wordnik/swagger-core/wiki) contains documen
 mvn clean package
 ```
 
+This will generate a WAR file that can be launched with Jetty or other containers.
+
 ## Support
 The following methods are available to obtain support for Swagger:
 
