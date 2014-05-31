@@ -1,5 +1,7 @@
 # Swagger Generator
 
+[![Build Status](https://travis-ci.org/wordnik/swagger-generator.png)](https://travis-ci.org/wordnik/swagger-generator)
+
 An online service to generate Swagger clients.
 
 Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for SpringMVC, other languages and more. 
