@@ -2,7 +2,7 @@ package com.wordnik.swagger.generator;
 
 import com.wordnik.swagger.model.*;
 import com.wordnik.swagger.config.*;
-import com.wordnik.swagger.sample.util.*;
+import com.wordnik.swagger.generator.util.*;
 import com.wordnik.swagger.config.FilterFactory;
 
 import javax.servlet.http.HttpServlet;

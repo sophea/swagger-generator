@@ -1,7 +1,7 @@
 package com.wordnik.swagger.online.configs
 
-import com.wordnik.swagger.sample.model._
-import com.wordnik.swagger.sample.exception._
+import com.wordnik.swagger.generator.model._
+import com.wordnik.swagger.generator.exception._
 
 import com.wordnik.swagger.codegen._
 import com.wordnik.swagger.codegen.model.ClientOpts

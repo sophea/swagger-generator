@@ -10,7 +10,7 @@
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>
         com.wordnik.swagger.jaxrs.json,
-        com.wordnik.swagger.sample.resource
+        com.wordnik.swagger.generator.resource
       </param-value>
     </init-param>
     <init-param>
@@ -46,18 +46,18 @@
     </init-param>
     <init-param>
       <param-name>swagger.filter</param-name>
-      <param-value>com.wordnik.swagger.sample.util.ApiAuthorizationFilterImpl</param-value>
+      <param-value>com.wordnik.swagger.generator.util.ApiAuthorizationFilterImpl</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
 
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
-    <filter-class>com.wordnik.swagger.sample.util.ApiOriginFilter</filter-class>
+    <filter-class>com.wordnik.swagger.generator.util.ApiOriginFilter</filter-class>
   </filter>
   <servlet>
     <servlet-name>Bootstrap</servlet-name>
-    <servlet-class>com.wordnik.swagger.sample.Bootstrap</servlet-class>
+    <servlet-class>com.wordnik.swagger.generator.Bootstrap</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
   <filter-mapping>

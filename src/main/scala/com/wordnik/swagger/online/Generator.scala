@@ -1,10 +1,10 @@
 package com.wordnik.swagger.online
 
-import com.wordnik.swagger.sample.model._
+import com.wordnik.swagger.generator.model._
 import com.wordnik.swagger.online.configs._
 import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen._
-import com.wordnik.swagger.sample.util.ZipUtil;
+import com.wordnik.swagger.generator.util.ZipUtil;
 
 import org.json4s._
 import org.json4s.JsonDSL._

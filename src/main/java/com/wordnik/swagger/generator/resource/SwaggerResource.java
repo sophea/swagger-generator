@@ -1,8 +1,8 @@
 package com.wordnik.swagger.generator.resource;
 
 import com.wordnik.swagger.annotations.*;
-import com.wordnik.swagger.sample.model.*;
-import com.wordnik.swagger.sample.exception.BadRequestException;
+import com.wordnik.swagger.generator.model.*;
+import com.wordnik.swagger.generator.exception.BadRequestException;
 import com.wordnik.swagger.online.Generator;
 
 import com.wordnik.swagger.codegen.model.ClientOpts;

@@ -16,10 +16,10 @@
 
 package com.wordnik.swagger.generator.resource;
 
-import com.wordnik.swagger.sample.exception.ApiException;
-import com.wordnik.swagger.sample.exception.BadRequestException;
-import com.wordnik.swagger.sample.exception.NotFoundException;
-import com.wordnik.swagger.sample.model.ApiResponse;
+import com.wordnik.swagger.generator.exception.ApiException;
+import com.wordnik.swagger.generator.exception.BadRequestException;
+import com.wordnik.swagger.generator.exception.NotFoundException;
+import com.wordnik.swagger.generator.model.ApiResponse;
 
 import javax.ws.rs.ext.*;
 import javax.ws.rs.core.Response;
