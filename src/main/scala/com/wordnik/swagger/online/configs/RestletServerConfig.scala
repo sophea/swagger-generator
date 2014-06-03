@@ -34,8 +34,8 @@ class RestletServerConfig extends BasicJavaGenerator with ClientConfig {
   var codeDir: String = _
 
   val fields = Set(
-    new InputOption("modelPackage", "The package for generated model files", "com.wordnik.model", false),
-    new InputOption("apiPackage", "Package for generated API files", "com.wordnik.api", false),
+    new InputOption("modelPackage", "The package for generated model files", "com.wordnik.restlet.representation", false),
+    new InputOption("apiPackage", "Package for generated API files", "com.wordnik.restlet.api", false),
     new InputOption("artifactId", "Identifier for the generated artifact", "swagger-jaxrs-server", false),
     new InputOption("artifactVersion", "Version for the generated artifact", "0.0.0", false),
     new InputOption("groupId", "group ID for the generated artifact", "com.wordnik", false)
@@ -71,6 +71,7 @@ class RestletServerConfig extends BasicJavaGenerator with ClientConfig {
 
   // supporting classes
   override def supportingFiles = List(
+    ("README.md", outputDirectory, "README.md"),
     ("pom.mustache", outputDirectory, "pom.xml"),
     ("restletApplication.mustache", codeDir, "RestletApplication.java")
   )

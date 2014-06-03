@@ -9,16 +9,35 @@ import java.util.*;
 public class {{className}}ServerResource extends ServerResource implements {{className}}Resource  {
   {{#operations}}
   {{#operation}}
+
+  {{#uniquePath}}
+  /**
+   {{#pathParams}}
+   * @param {{paramName}} {{description}}
+   {{/pathParams}}
+   **/
+
+  {{#pathParams}}
+  private {{dataType}} {{paramName}};
+  {{/pathParams}}
+
+  public void doInit({{#pathParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) {
+  {{#pathParams}}
+    this.{{paramName}} = {{paramName}};
+  {{/pathParams}}
+  }
+  {{/uniquePath}}
+
+
   /** 
    {{{summary}}} 
 
    {{#notes}}
    {{{notes}}}
    {{/notes}}
-   {{#pathParams}}
-   @param {{paramName}} {{description}}
-   {{/pathParams}}
-  */
+   **/
+
+
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#bodyParams}}{{{dataType}}} {{paramName}}{{/bodyParams}}) {
     {{#allParams}}
     {{#pathParameter}}{{{dataType}}} {{paramName}} = {{{dataType}}}.valueOf(getAttribute("{{{paramName}}}"));{{/pathParameter}}

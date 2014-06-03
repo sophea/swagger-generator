@@ -7,13 +7,26 @@ package {{package}};
 
 public class {{classname}} {
   {{#vars}}
-
   {{#description}}/* {{{description}}} */
   {{/description}}
   private {{{datatype}}} {{name}} = {{{defaultValue}}};
   {{/vars}}
+
+  /**
+   * default constructor
+   **/
+  public {{classname}}(){}
+
+  public {{classname}}({{#vars}}{{{datatype}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
+  }
   
   {{#vars}}
+  /**
+   * {{description}}
+   **/
   public {{{datatype}}} {{getter}}() {
     return {{name}};
   }
