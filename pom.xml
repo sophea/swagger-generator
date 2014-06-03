@@ -246,14 +246,14 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  <!--repositories>
+  <repositories>
      <repository>
        <id>sonatype-snapshots</id>
        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
        <releases><enabled>false</enabled></releases>
        <snapshots><enabled>true</enabled></snapshots>
      </repository>
-   </repositories>-->
+   </repositories>
   <properties>
     <scala-version>2.10.0</scala-version>
     <felix-version>2.3.4</felix-version>
