@@ -1,0 +1,30 @@
+module {{rootFolder}}
+  class {{className}} < Grape::API
+    {{#operations}}
+    {{#operation}}
+
+
+    # get {{path}}
+    desc "{{{summary}}}", {
+      nickname: "{{{nickname}}}",
+      {{#returnBaseType}}entity: "Entities::{{returnBaseType}}",{{/returnBaseType}}
+      notes: "{{{notes}}}",
+      http_codes: {
+        {{#errorList}}
+        {{code}} => "{{{reason}}}",
+        {{/errorList}}
+      }
+    }
+
+    params do
+      {{#allParams}}
+      {{#required}}requires {{/required}}{{^required}}optional {{/required}} :{{paramName}}, type: {{dataType}}, desc: "{{description}}"
+      {{/allParams}}
+    end
+    {{httpMethod}} "{{path}}" do
+      # add your magic here
+    end
+    {{/operation}}
+    {{/operations}}
+  end
+end

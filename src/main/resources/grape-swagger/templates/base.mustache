@@ -1,0 +1,10 @@
+module {{rootFolder}}
+  class Base < Grape::API
+    version '{{appVersion}}', using: :header, vendor: '{{vendor}}', format: :json, cascade: true
+    {{#apiInfo}}
+    {{#apis}}
+    mount {{rootFolder}}::{{className}}
+    {{/apis}}
+    {{/apiInfo}}
+  end
+end

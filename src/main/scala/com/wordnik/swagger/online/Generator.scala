@@ -62,6 +62,7 @@ object Generator {
       case "jaxrs" => new JaxRSServerConfig()
       case "nodejs" => new NodeJSServerConfig()
       case "restlet" => new RestletServerConfig()
+      case "grape" => new GrapeSwaggerServerConfig()
       case _ => null
     }
     Option(clientConfig) match {
@@ -133,6 +134,7 @@ object Generator {
       case "jaxrs" => new JaxRSServerConfig()
       case "nodejs" => new NodeJSServerConfig()
       case "restlet" => new RestletServerConfig()
+      case "grape" => new GrapeSwaggerServerConfig()
       case _ => null
     }
 
