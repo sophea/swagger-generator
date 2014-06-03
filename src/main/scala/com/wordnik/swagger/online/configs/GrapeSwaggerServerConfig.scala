@@ -69,17 +69,16 @@ class GrapeSwaggerServerConfig extends GrapeSwaggerServerGenerator with ClientCo
     ("app.mustache", outputDirectory, "app.rb"),
     ("base.mustache", outputDirectory + File.separator + apiPackage.get, "base.rb"))
 
-  override def toApiName(name: String) = name(0).toLower + name.substring(1)
-
+  override def toModelFilename(name: String) = {
+    val to = name(0).toLower + name.substring(1)
+    println("updating name from " + name + " to " + to)
+    to
+  }
+  override def toApiFilename(name: String) = name(0).toLower + name.substring(1)
   override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
     val mutable = scala.collection.mutable.Map() ++ m
-
     mutable.map(k => {
       k._1 match {
-        case "name" => {
-          val name = k._2.toString
-          mutable += "className" -> (name.charAt(0).toUpper + name.substring(1))
-        }
         case "httpMethod" => mutable += "httpMethod" -> k._2.toString.toLowerCase
         // convert path into ruby-ish syntax without basePart (i.e. /pet.{format}/{petId} => /:petId
         case "path" => {

@@ -2,7 +2,7 @@
 
 module Entities
   {{#model}}
-  class {{classname}} < Grape::Entity
+  class {{className}} < Grape::Entity
     {{#vars}}
     expose :{{name}}, documentation: { type: "{{datatype}}", required: {{#required}}true{{/required}}{{^required}}false{{/required}}, desc: "{{{description}}}" {{#allowableValues}}, enum: [{{allowableValues}}] {{/allowableValues}} }
     {{/vars}}{{newline}}
