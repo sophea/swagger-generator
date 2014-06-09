@@ -1,5 +1,7 @@
 exports.models = {
   {{#models}}
-  "{{modelName}}": {{{modelJson}}}{{#hasMoreModels}},{{/hasMoreModels}}{{newline}}
+  {{#model}}
+  "{{classVarName}}": {{{modelJson}}}{{#hasMoreModels}},{{/hasMoreModels}}{{newline}}
+  {{/model}}
   {{/models}}
 }

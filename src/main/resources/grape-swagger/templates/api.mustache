@@ -12,19 +12,19 @@ module {{rootFolder}}
       http_codes: {
         {{#errorList}}
         {{code}} => "{{{reason}}}",
-        {{/errorList}}
+        {{/errorList}}{{newline}}
       }
     }
 
     params do
       {{#allParams}}
-      {{#required}}requires {{/required}}{{^required}}optional {{/required}} :{{paramName}}, type: {{dataType}}, desc: "{{description}}"
-      {{/allParams}}
+      {{#required}}requires {{/required}}{{^required}}optional {{/required}} :{{paramName}}, type: "{{dataType}}", desc: "{{description}}"
+      {{/allParams}}{{newline}}
     end
     {{httpMethod}} "{{path}}" do
       # add your magic here
     end
     {{/operation}}
-    {{/operations}}
+    {{/operations}}{{newline}}
   end
 end

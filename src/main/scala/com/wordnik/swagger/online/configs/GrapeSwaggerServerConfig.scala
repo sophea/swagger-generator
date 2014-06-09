@@ -32,9 +32,10 @@ class GrapeSwaggerServerConfig extends GrapeSwaggerServerGenerator with ClientCo
   var outputDirectory: String = _
 
   val fields = Set(
-    new InputOption("rootFolder", "Root path for the generated api", "api", false),
+    new InputOption("rootFolder", "Root path for the generated api", "V1", false),
     new InputOption("appVersion", "Version for the generated server", "0.0.0", false),
-    new InputOption("vendor", "the vendor used in the server definition", "wordnik", false)
+    new InputOption("vendor", "the vendor used in the server definition", "wordnik", false),
+    new InputOption("appName", "the app name used in the server definition", "Wordnik", false)
   )
 
   override def generate(config: ClientOpts): Seq[java.io.File] = {
@@ -49,31 +50,62 @@ class GrapeSwaggerServerConfig extends GrapeSwaggerServerGenerator with ClientCo
     this.outputDirectory = config.outputDirectory
     additionalParams ++= properties
     additionalParams ++= Map(
-      "rootFolder" -> apiPackage.get,
+      "rootFolder" -> rootFolder,
       "appVersion" -> appVersion.get,
-      "vendor" -> vendor.get
+      "vendor" -> vendor.get,
+      "appName" -> appName.get
     )
     super.generate(config)
   }
   def usage() = fields
 
+  def appDir = this.outputDirectory + File.separator + "app"
+  def apiDir = this.outputDirectory + File.separator + "app" + File.separator + "apis"
+  def rootFolder = properties.getOrElse("rootFolder", fieldDefaultValue("rootFolder"))
+
   override def destinationDir = this.outputDirectory + java.io.File.separator
-  override def modelPackage = Option("entities")
-  override def apiPackage = Option(properties.getOrElse("rootFolder", fieldDefaultValue("rootFolder")))
+  override def modelPackage = Option("app.apis.entities")
+  override def apiPackage = Option("app.apis." + rootFolder)
+  override def toApiName(name: String) = {
+    name.replaceAll("\\{","").replaceAll("\\}", "") match {
+      case s: String if(s.length > 0) => s(0).toUpper + s.substring(1)
+      case _ => ""
+    }
+  }
 
   def appVersion = Option(properties.getOrElse("appVersion", fieldDefaultValue("appVersion")))
   def vendor = Option(properties.getOrElse("vendor", fieldDefaultValue("vendor")))
+  def appName = Option(properties.getOrElse("appName", fieldDefaultValue("appName")))
 
   // supporting classes
   override def supportingFiles = List(
-    ("app.mustache", outputDirectory, "app.rb"),
-    ("base.mustache", outputDirectory + File.separator + apiPackage.get, "base.rb"))
+    // bin
+    ("bundle", outputDirectory + File.separator + "bin", "bundle"),
+    ("rails", outputDirectory + File.separator + "bin", "rails"),
+    ("rake", outputDirectory + File.separator + "bin", "rake"),
 
-  override def toModelFilename(name: String) = {
-    val to = name(0).toLower + name.substring(1)
-    println("updating name from " + name + " to " + to)
-    to
-  }
+    // base
+    ("config.ru", outputDirectory, "config.ru"),
+    ("Gemfile", outputDirectory, "Gemfile"),
+
+    // api
+    ("base.mustache", outputDirectory + "." + apiPackage.get, "base.rb"),
+    ("app.mustache", apiDir, "api.rb"),
+
+    // config
+    ("application.mustache", outputDirectory + File.separator + "config", "application.rb"),
+    ("boot.rb", outputDirectory + File.separator + "config", "boot.rb"),
+    ("database.yml", outputDirectory + File.separator + "config", "database.yml"),
+    ("environment.mustache", outputDirectory + File.separator + "config", "environment.rb"),
+    ("routes.mustache", outputDirectory + File.separator + "config", "routes.rb"),
+
+    // config/environments
+    ("development.mustache", outputDirectory + File.separator + "config" + File.separator + "environments", "development.rb"),
+    ("production.mustache", outputDirectory + File.separator + "config" + File.separator + "environments", "production.rb"),
+    ("test.mustache", outputDirectory + File.separator + "config" + File.separator + "environments", "test.rb")
+  )
+
+  override def toModelFilename(name: String) = name(0).toLower + name.substring(1)
   override def toApiFilename(name: String) = name(0).toLower + name.substring(1)
   override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
     val mutable = scala.collection.mutable.Map() ++ m

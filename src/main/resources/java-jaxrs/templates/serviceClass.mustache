@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.File;
 
 
-public class {{className}}Service {
+public class {{name}}Service {
   {{#operations}}
   {{#operation}}
   public static {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {

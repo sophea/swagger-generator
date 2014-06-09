@@ -1,7 +1,7 @@
 {{#returnType}}
-  return Response.ok().entity({{className}}Service.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}})).build();
+  return Response.ok().entity({{name}}Service.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}})).build();
 {{/returnType}}
 {{^returnType}}
-  {{className}}Service.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+  {{name}}Service.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
   return Response.ok().build();
 {{/returnType}}
