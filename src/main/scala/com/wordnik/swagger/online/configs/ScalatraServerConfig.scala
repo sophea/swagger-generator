@@ -28,15 +28,15 @@ class ScalatraServerConfig extends ScalatraServerGenerator with ClientConfig {
   var config: ClientOpts = _
   var properties: Map[String, String] = Map()
   var outputDirectory: String = _
-  var javaDir: String = _
+  var scalaDir: String = _
 
   val fields = Set(
     new InputOption("appName", "The application name", "sample app", false),
     new InputOption("appDescription", "The application description", "A sample app generated from http://generator.wordnik.com", false),
     new InputOption("infoUrl", "A URL for more info", "http://swagger.wordnik.com", false),
     new InputOption("infoEmail", "The developer contact email address", "apiteam@wordnik.com", false),
-    new InputOption("licenseInfo", "The license for the API", "Creative Commons 4.0.0", false),
-    new InputOption("licenseUrl", "The license URL for the API", "http://swagger.wordnik.com", false),
+    new InputOption("licenseInfo", "The license for the API", "Creative Commons 4.0 International", false),
+    new InputOption("licenseUrl", "The license URL for the API", "http://creativecommons.org/licenses/by/4.0/", false),
     new InputOption("modelPackage", "The package for generated model files", "com.wordnik.model", false),
     new InputOption("apiPackage", "Package for generated API files", "com.wordnik.api", false),
     new InputOption("artifactId", "Identifier for the generated artifact", "swagger-jaxrs-server", false),
@@ -54,7 +54,7 @@ class ScalatraServerConfig extends ScalatraServerGenerator with ClientConfig {
     }
 
     this.outputDirectory = config.outputDirectory
-    this.javaDir = this.outputDirectory + "/src/main/java"
+    this.scalaDir = this.outputDirectory + "/src/main/scala"
     additionalParams ++= properties
     super.generate(config)
   }
@@ -63,7 +63,7 @@ class ScalatraServerConfig extends ScalatraServerGenerator with ClientConfig {
   def artifactVersion = properties.getOrElse("artifactVersion", fieldDefaultValue("artifactVersion"))
   def groupId = properties.getOrElse("groupId", fieldDefaultValue("groupId"))
 
-  override def destinationDir = this.javaDir
+  override def destinationDir = this.scalaDir
   override def modelPackage = Option(properties.getOrElse("modelPackage", fieldDefaultValue("modelPackage")))
   override def apiPackage = Option(properties.getOrElse("apiPackage", fieldDefaultValue("apiPackage")))
 
