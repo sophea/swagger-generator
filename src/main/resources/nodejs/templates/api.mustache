@@ -31,7 +31,7 @@ exports.{{nickname}} = {
     {{/pathParams}}]).concat([{{#headerParams}}
       params.header("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/headerParams}}]).concat([{{#bodyParams}}
-      params.body("body", "{{swaggerDataType}}", "{{description}}", {{required}})
+      params.body("body", "{{swaggerDataType}}", "{{description}}", {{#required}}{{required}}{{/required}}{{^required}}false{{/required}})
     {{/bodyParams}}]),
     "type" : "{{returnType}}",
     "responseMessages" : [errors.invalid('id'), errors.notFound('{{returnType}}')],
