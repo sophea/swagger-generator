@@ -60,6 +60,7 @@ object Generator {
   def serverOptions(language: String) = {
     val clientConfig = language.toLowerCase match {
       case "jaxrs" => new JaxRSServerConfig()
+      case "scalatra" => new ScalatraServerConfig()
       case "nodejs" => new NodeJSServerConfig()
       case "restlet" => new RestletServerConfig()
       case "grape" => new GrapeSwaggerServerConfig()
@@ -134,6 +135,7 @@ object Generator {
       case "jaxrs" => new JaxRSServerConfig()
       case "nodejs" => new NodeJSServerConfig()
       case "restlet" => new RestletServerConfig()
+      case "scalatra" => new ScalatraServerConfig()
       case "grape" => new GrapeSwaggerServerConfig()
       case _ => null
     }
