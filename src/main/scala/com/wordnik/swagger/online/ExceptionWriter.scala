@@ -1,5 +1,5 @@
 /**
- *  Copyright 2014 Reverb, Inc.
+ *  Copyright 2012 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,12 +14,23 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.generator.exception;
+package com.wordnik.swagger.online
 
-public class BadRequestException extends ApiException {
-  private int code;
-  public BadRequestException (int code, String msg) {
-    super(code, msg);
-    this.code = code;
+import com.wordnik.swagger.util._
+
+import javax.ws.rs.ext.{ ExceptionMapper, Provider }
+import javax.ws.rs.core.Response
+import javax.ws.rs.core.Response.Status
+
+@Provider
+class ExceptionWriter extends ExceptionMapper[Exception] {
+  def toResponse(e: Exception): Response = {
+    e match {
+      case e: ValidationException =>
+        Response.status(Status.BAD_REQUEST).entity(e.messages).build
+      case _ =>
+        Response.status(Status.INTERNAL_SERVER_ERROR).entity("a system error occured").build
+    }
   }
 }
+

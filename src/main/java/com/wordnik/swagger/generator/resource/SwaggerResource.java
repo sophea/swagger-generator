@@ -96,6 +96,10 @@ public class SwaggerResource {
     notes = "Values which are not required will use the provided default values",
     response = InputOption.class,
     responseContainer = "List")
+  @ApiResponses(value = {
+    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
+  })
+
   public Response clientLibraryOptions(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language) {
     return Response.ok().entity(Generator.clientOptions(language)).build();

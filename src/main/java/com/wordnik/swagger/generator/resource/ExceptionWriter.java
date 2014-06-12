@@ -16,6 +16,8 @@
 
 package com.wordnik.swagger.generator.resource;
 
+import com.wordnik.swagger.util.ValidationException;
+
 import com.wordnik.swagger.generator.exception.ApiException;
 import com.wordnik.swagger.generator.exception.BadRequestException;
 import com.wordnik.swagger.generator.exception.NotFoundException;
@@ -26,7 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 @Provider
-public class SampleExceptionMapper implements ExceptionMapper<Exception> {
+public class ExceptionWriter implements ExceptionMapper<Exception> {
   public Response toResponse(Exception exception) {
     if (exception instanceof javax.ws.rs.WebApplicationException) {
       javax.ws.rs.WebApplicationException e = (javax.ws.rs.WebApplicationException) exception;
@@ -37,6 +39,9 @@ public class SampleExceptionMapper implements ExceptionMapper<Exception> {
     } else if (exception instanceof com.fasterxml.jackson.core.JsonParseException) {
       return Response.status(400)
           .entity(new ApiResponse(400, "bad input")).build();
+    } else if (exception instanceof ValidationException) {
+      ValidationException e = (ValidationException) exception;
+      return Response.status(Status.BAD_REQUEST).entity(e.messages()).build();
     } else if (exception instanceof NotFoundException) {
       return Response
           .status(Status.NOT_FOUND)
