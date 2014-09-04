@@ -60,6 +60,9 @@ public class SwaggerResource {
   @Produces({"application/zip", "application/json"})
   @ApiOperation(value = "Generates a client library based on the config",
     notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
+  @ApiResponses(value = {
+    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
+  })
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) ClientOptInput opts) throws Exception {
@@ -96,10 +99,6 @@ public class SwaggerResource {
     notes = "Values which are not required will use the provided default values",
     response = InputOption.class,
     responseContainer = "List")
-  @ApiResponses(value = {
-    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
-  })
-
   public Response clientLibraryOptions(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language) {
     return Response.ok().entity(Generator.clientOptions(language)).build();
@@ -130,6 +129,9 @@ public class SwaggerResource {
   @Path("/servers/{framework}")
   @ApiOperation(value = "Generates a server library for the supplied server framework",
     notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
+  @ApiResponses(value = {
+    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
+  })
   public Response generateServerForLanguage(
     @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
     @ApiParam(value = "parameters", required = true) ClientOptInput opts)
