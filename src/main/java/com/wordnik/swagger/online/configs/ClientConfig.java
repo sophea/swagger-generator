@@ -14,32 +14,26 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.generator.model;
+package com.wordnik.swagger.online.configs;
 
-import com.wordnik.swagger.codegen.model.ClientOpts;
+import com.wordnik.swagger.generator.model.*;
+import com.wordnik.swagger.codegen.ClientOpts;
 
-import com.wordnik.swagger.annotations.*;
+import java.util.*;
+import java.io.File;
 
-import com.fasterxml.jackson.databind.JsonNode;
+public abstract class ClientConfig {
+  Set<InputOption> fields = new HashSet<InputOption>();
+  Map<String, String> properties = new HashMap<String, String>();
 
-public class ClientOptInput {
-  private ClientOpts opts;
-  private JsonNode model;
+  public abstract List<File> generate(ClientOpts config);
 
-  public void setOpts(ClientOpts opts) {
-    this.opts = opts;
-  }
-
-  public ClientOpts getOpts() {
-    return opts;
-  }
-
-  public void setModel(JsonNode model) {
-    this.model = model;
-  }
-
-  @ApiModelProperty(hidden = true)
-  public JsonNode getModel() {
-    return model;
+  public String fieldDefaultValue(String key) {
+    for(InputOption opt: fields) {
+      if(opt.getName().equals(key)) {
+        return opt.getDefaultValue();
+      }
+    }
+    return null;
   }
 }

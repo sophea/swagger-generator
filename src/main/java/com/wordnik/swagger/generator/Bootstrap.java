@@ -17,9 +17,9 @@
 package com.wordnik.swagger.generator;
 
 import com.wordnik.swagger.model.*;
-import com.wordnik.swagger.config.*;
+// import com.wordnik.swagger.config.*;
 import com.wordnik.swagger.generator.util.*;
-import com.wordnik.swagger.config.FilterFactory;
+// import com.wordnik.swagger.config.FilterFactory;
 
 import javax.servlet.http.HttpServlet;
 
@@ -32,7 +32,7 @@ public class Bootstrap extends HttpServlet {
     // ConfigFactory.config().setBasePath("http://www.foo.com/");
 
     // add a custom filter
-    FilterFactory.setFilter(new CustomFilter());
+    // FilterFactory.setFilter(new CustomFilter());
 
     ApiInfo info = new ApiInfo(
       "Swagger Generator",                             /* title */
@@ -44,6 +44,6 @@ public class Bootstrap extends HttpServlet {
       "http://www.apache.org/licenses/LICENSE-2.0.html" /* license URL */
     );
 
-    ConfigFactory.config().setApiInfo(info);
+    // ConfigFactory.config().setApiInfo(info);
   }
 }

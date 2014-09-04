@@ -21,7 +21,7 @@ import com.wordnik.swagger.generator.model.*;
 import com.wordnik.swagger.generator.exception.BadRequestException;
 import com.wordnik.swagger.online.Generator;
 
-import com.wordnik.swagger.codegen.model.ClientOpts;
+import com.wordnik.swagger.codegen.*;
 
 import java.io.File;
 import java.util.*;
@@ -45,10 +45,10 @@ public class SwaggerResource {
       byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(new java.io.File(g.getFilename()));
 
       return Response.ok(bytes, "application/zip")
-            .header("Content-Disposition","attachment; filename=\"" + g.getFriendlyName() + "-generated.zip\"")
-            .header("Accept-Range", "bytes")
-            .header("Content-Length", bytes.length)
-            .build();
+        .header("Content-Disposition","attachment; filename=\"" + g.getFriendlyName() + "-generated.zip\"")
+        .header("Accept-Range", "bytes")
+        .header("Content-Length", bytes.length)
+        .build();
     }
     else {
       return Response.status(404).build();
@@ -60,9 +60,9 @@ public class SwaggerResource {
   @Produces({"application/zip", "application/json"})
   @ApiOperation(value = "Generates a client library based on the config",
     notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
-  @ApiResponses(value = {
-    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
-  })
+  // @ApiResponses(value = {
+  //   @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
+  // })
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) ClientOptInput opts) throws Exception {
@@ -129,9 +129,9 @@ public class SwaggerResource {
   @Path("/servers/{framework}")
   @ApiOperation(value = "Generates a server library for the supplied server framework",
     notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
-  @ApiResponses(value = {
-    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
-  })
+  // @ApiResponses(value = {
+  //   @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = com.wordnik.swagger.util.ValidationMessage.class),
+  // })
   public Response generateServerForLanguage(
     @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
     @ApiParam(value = "parameters", required = true) ClientOptInput opts)
